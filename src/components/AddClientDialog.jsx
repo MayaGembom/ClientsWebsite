@@ -1,7 +1,8 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField,DialogContentText, makeStyles} from '@material-ui/core'
-import React, { useRef} from 'react'
+import React, { useRef,useState} from 'react'
 import Button from './controls/Button';
-
+import {isValidIsraeliID, isPhoneValid, isIpValid} from './controls/Validation';
+import Notification from "./controls/Notification";
 
 const useStyles = makeStyles(theme => ({
     dialog: {
@@ -38,6 +39,7 @@ const idValRef = useRef('')
 const fullNameValRef = useRef('')
 const phoneNumValRef = useRef('')
 const ipValRef = useRef('')
+const [notify, setNotify] = useState({isOpen:false,message:'',type:''})
 
   return (
       <Dialog open= {addClientDialog.isOpen}>
@@ -108,22 +110,42 @@ const ipValRef = useRef('')
                         console.log(idValRef.current.value)
                         console.log(phoneNumValRef.current.value)
                         console.log(ipValRef.current.value)
-                        var newClient = {
-                            fullName: fullNameValRef.current.value,
-                            id: idValRef.current.value,
-                            phoneNum: phoneNumValRef.current.value,
-                            ip: ipValRef.current.value
+
+                        var idCheck = isValidIsraeliID(idValRef.current.value)
+                        var phoneCheck = isPhoneValid(phoneNumValRef.current.value)
+                        var ipCheck = isIpValid(ipValRef.current.value)
+                        if(idCheck&&phoneCheck&& ipCheck){
+                            var newClient = {
+                                fullName: fullNameValRef.current.value,
+                                id: idValRef.current.value,
+                                phoneNum: phoneNumValRef.current.value,
+                                ip: ipValRef.current.value
+                            }
+                            
+                            //TODO: validation 
+
+                            setAddClientDialog({ ...addClientDialog, isOpen: false });
+                            props.getData(newClient)
                         }
-                        
-                        //TODO: validation 
+                        else{
 
-                        setAddClientDialog({ ...addClientDialog, isOpen: false });
-                        props.getData(newClient)
+                            var msg = [];
+        
+                            msg.push(idCheck? "":"ID is invalid");
+                            msg.push(ipCheck? "":"IP address is invalid");
+                            msg.push(phoneCheck? "":"Phone number is invalid");
 
+                            setNotify({
+                            isOpen:true,
+                            message: msg.filter(str => str !== "").join(' and '),
+                            type: 'error'
+                            })
+                        }
                         
                         }
                     } />
             </DialogActions>
+            <Notification notify={notify} setNotify={setNotify}/>
       </Dialog>
   );
 }
