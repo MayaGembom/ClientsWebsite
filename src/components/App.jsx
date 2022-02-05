@@ -3,7 +3,6 @@ import Footer from "./Footer";
 import Header from "./Header";
 import MaterialTable from "material-table";
 import Notification from "./controls/Notification";
-import {isValidIsraeliID, isPhoneValid, isIpValid} from './controls/Validation';
 import ConfirmDialog from "./ConfirmDialog";
 import AddClientDialog from "./AddClientDialog";
 import tableIcons from "./controls/MaterialTableIcons";
@@ -26,32 +25,7 @@ function App() {
     const [confirmDialog, setConfirmDialog] = useState({isOpen:false,title:'',subtitle:''})
     const [notify, setNotify] = useState({isOpen:false,message:'',type:''})
     const [tableData, setTableData] = useState([])
-            // {name:"Priscilla Matthews" 	,id:"384525101" ,ip:"80.119.117.187" 	,phone:"+972-523862672"},
-            // {name:"Benjamin Douglas" 	,id:"660652470" ,ip:"104.29.98.222" 	,phone:"+972-557712987"},
-            // {name:"Jordan Porter" 		,id:"753184050" ,ip:"1.10.243.200" 	,phone:"+972-532509246"    },
-            // {name:"Jacqueline Hughes" 	,id:"875322869" ,ip:"103.255.178.143" 	,phone:"+972-551448824"},
-            // {name:"Max Dunn" 			,id:"338605579" ,ip:"88.144.81.24" 	,phone:"+972-543503816"    },
-            // {name:"Christy Neal" 		,id:"068672047" ,ip:"62.113.223.73" 	,phone:"+972-542202337"},
-            // {name:"Jessica Rodriquez" 	,id:"150318228" ,ip:"12.189.93.218" 	,phone:"+972-558975263"},
-
-            // {name:"Priscilla Matthews" 	,id:"384525101" ,ip:"80.119.117.187" 	,phone:"+972-523862672"},
-            // {name:"Benjamin Douglas" 	,id:"660652470" ,ip:"104.29.98.222" 	,phone:"+972-557712987"},
-            // {name:"Jordan Porter" 		,id:"753184050" ,ip:"1.10.243.200" 	,phone:"+972-532509246"    },
-            // {name:"Jacqueline Hughes" 	,id:"875322869" ,ip:"103.255.178.143" 	,phone:"+972-551448824"},
-            // {name:"Max Dunn" 			,id:"338605579" ,ip:"88.144.81.24" 	,phone:"+972-543503816"    },
-            // {name:"Christy Neal" 		,id:"068672047" ,ip:"62.113.223.73" 	,phone:"+972-542202337"},
-            // {name:"Jessica Rodriquez" 	,id:"150318228" ,ip:"12.189.93.218" 	,phone:"+972-558975263"},
-
-
-            // {name:"Priscilla Matthews" 	,id:"384525101" ,ip:"80.119.117.187" 	,phone:"+972-523862672"},
-            // {name:"Benjamin Douglas" 	,id:"660652470" ,ip:"104.29.98.222" 	,phone:"+972-557712987"},
-            // {name:"Jordan Porter" 		,id:"753184050" ,ip:"1.10.243.200" 	,phone:"+972-532509246"    },
-            // {name:"Jacqueline Hughes" 	,id:"875322869" ,ip:"103.255.178.143" 	,phone:"+972-551448824"},
-            // {name:"Max Dunn" 			,id:"338605579" ,ip:"88.144.81.24" 	,phone:"+972-543503816"    },
-            // {name:"Christy Neal" 		,id:"068672047" ,ip:"62.113.223.73" 	,phone:"+972-542202337"},
-            // {name:"Jessica Rodriquez" 	,id:"150318228" ,ip:"12.189.93.218" 	,phone:"+972-558975263"},
-   
-
+    
     function onAddClient(newClient){
       const newList = [...tableData];
       var data = {name:newClient.fullName,id:newClient.id ,ip:newClient.ip	,phone:newClient.phoneNum}

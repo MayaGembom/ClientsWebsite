@@ -1,4 +1,3 @@
-import React from "react";
 
 function isValidIsraeliID (idVal) {
         var id = String(idVal).trim();
@@ -25,4 +24,4 @@ function isPhoneValid(phone) {
 
   
 
-  export {isValidIsraeliID, isPhoneValid, isIpValid}
+  export {isValidIsraeliID, isPhoneValid, isIpValid};
