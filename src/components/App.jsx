@@ -8,24 +8,30 @@ import AddClientDialog from "./AddClientDialog";
 import tableIcons from "./controls/MaterialTableIcons";
 import axios from 'axios';
 
-function App() {
 
+const columns = [
+  {title:"Full Name", field:"name", filterPlaceholder:"Filter By Name"},
+  {title:"Id", field:"id",filterPlaceholder:"Filter By Id"},
+  {title:"Phone Number", field:"phone",filterPlaceholder:"Filter By Phone Number"},
+  {title:"IP Address", field:"ip",filterPlaceholder:"Filter By IP Address"},
+]
+
+function App() {
+  const [addClientDialog, setAddClientDialog] = useState({isOpen:false,title:'',subtitle:''})
+  const [confirmDialog, setConfirmDialog] = useState({isOpen:false,title:'',subtitle:''})
+  const [notify, setNotify] = useState({isOpen:false,message:'',type:''})
+  const [tableData, setTableData] = useState([])
+  
   useEffect(() => {
     axios.get(`https://limitless-plains-71101.herokuapp.com/getAll`)
     .then(res => {
       const clients = res.data.data;
-      console.log(clients);
       setTableData(clients);
     }).catch(error=>{
       console.log("Cannot load clients data")
     })
   }, [])
 
-    const [addClientDialog, setAddClientDialog] = useState({isOpen:false,title:'',subtitle:''})
-    const [confirmDialog, setConfirmDialog] = useState({isOpen:false,title:'',subtitle:''})
-    const [notify, setNotify] = useState({isOpen:false,message:'',type:''})
-    const [tableData, setTableData] = useState([])
-    
     function onAddClient(newClient){
       const newList = [...tableData];
       var data = {name:newClient.fullName,id:newClient.id ,ip:newClient.ip	,phone:newClient.phoneNum}
@@ -42,9 +48,7 @@ function App() {
       
       axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
         setTableData(newList );
-
         setNotify({
           isOpen:true,
           message:  `Add ${newClient.fullName} as new client successfully`,
@@ -52,7 +56,6 @@ function App() {
         })
       })
       .catch(function (error) {
-        console.log(error);
         setNotify({
           isOpen:true,
           message:  `Could not add ${newClient.fullName}`,
@@ -63,18 +66,11 @@ function App() {
       
     }
 
-    const columns = [
-        {title:"Full Name", field:"name", filterPlaceholder:"Filter By Name"},
-        {title:"Id", field:"id",filterPlaceholder:"Filter By Id"},
-        {title:"Phone Number", field:"phone",filterPlaceholder:"Filter By Phone Number"},
-        {title:"IP Address", field:"ip",filterPlaceholder:"Filter By IP Address"},
-    ]
-
     return (
       <div>
         <Header />
         <div style={{ padding: '5% 5% 1% 5%' }}>
-        <MaterialTable title="Clients Information" 
+        <MaterialTable
         actions={[
         {
           icon: tableIcons.Delete,
@@ -106,10 +102,7 @@ function App() {
 
                         axios(config)
                         .then(function (response) {
-                          console.log(JSON.stringify(response.data));
-
                           setTableData( tableData.filter((item)=> item.id !== rowData.id))
-                          console.log("delete " + rowData.id)
                           setNotify({
                               isOpen:true,
                               message:  `Client ${rowData.name} Deleted Successfully`,
@@ -132,8 +125,7 @@ function App() {
           icon: tableIcons.Add,
           tooltip: "Add User",
           isFreeAction: true,
-          onClick: (event) => {
-
+          onClick: () => {
             setAddClientDialog({
               isOpen:true,
               onSubmit: (dialogData)=>{
@@ -144,15 +136,12 @@ function App() {
           },
         },
       ]}
-         options={{filtering:true}} columns={columns} data = {tableData} icons={tableIcons} />
-
+         options={{filtering:true,showTitle:false }} columns={columns} data = {tableData} icons={tableIcons} />
 </div>
-
-        <Footer />
-
         <Notification notify={notify} setNotify={setNotify}/>
         <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog}/>
         <AddClientDialog addClientDialog={addClientDialog} setAddClientDialog={setAddClientDialog} getData={onAddClient}/>
+        <Footer/>
       </div>
     );
   }
