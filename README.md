@@ -4,5 +4,5 @@
 > - Add and remove a client
 > - Filter the clients
 
-## :sparkles: Demo Application:
-<a href="https://humanz-frontend.herokuapp.com/" target="_blank">Clients Website</a> <h4>
+## :sparkles: Demo Application
+<a href="https://maya-gembom-website.herokuapp.com/" target="_blank">Clients Information Website 📋</a> <h4>
